@@ -29,7 +29,7 @@ export PYTHONUNBUFFERED=1 OMP_NUM_THREADS=1
 echo "===== MixerCSeg split_80_10_10 ${SLURM_JOB_ID:-} -> $OUT on $(hostname) | $(date) ====="
 echo "python : $(command -v python)"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader 2>/dev/null || echo "no GPU visible"
-python -c "import selective_scan_cuda_oflex" 2>/dev/null && echo "selective_scan kernel: ok" \
+python -c "import torch, selective_scan_cuda_oflex" 2>/dev/null && echo "selective_scan kernel: ok" \
     || echo "WARNING: selective_scan CUDA kernel not built (VMamba/models/kernels/selective_scan: python setup.py install); the PyTorch scan is very slow"
 
 python -u train_mixercseg_split80.py train --data "$DATA" --out "$OUT" \

@@ -334,7 +334,7 @@ def train(args) -> None:
         model.load_state_dict(state["model"])
         optimizer.load_state_dict(state["optimizer"])
         start, best, history = state["epoch"] + 1, state["best"], state["history"]
-        torch.set_rng_state(state["rng"]["torch"])
+        torch.set_rng_state(state["rng"]["torch"].cpu())  # map_location moved it to the GPU
         np.random.set_state(state["rng"]["numpy"])
         random.setstate(state["rng"]["python"])
         print(f"resumed after epoch {state['epoch']}", flush=True)
