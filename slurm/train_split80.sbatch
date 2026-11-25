@@ -19,6 +19,7 @@ set -uo pipefail
 : "${OUT:?Set OUT=<run folder>}"
 cd "${SLURM_SUBMIT_DIR:-$(pwd)}" || exit 1
 [ -f "$DATA/split_manifest.csv" ] || { echo "No split_manifest.csv in $DATA" >&2; exit 1; }
+[ -f "$OUT/FINISHED" ] && { echo "$OUT/FINISHED exists: training already done, nothing to do"; exit 0; }
 
 # Compute nodes have no conda: put the environment on PATH instead of activating it.
 ENV_DIR="${ENV_DIR:-$HOME/.conda/envs/mixercseg}"
